@@ -1,3 +1,6 @@
+/* 
+ * 更接近于App.js里需要的样式 权重优先于index.css
+ * App.css是组件的样式，index.css是全局的样式
 .App {
   text-align: center;
 }
@@ -35,4 +38,14 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.App1 {
+    text-align: center;
+    color: blue;
+    /* background: green; */
+}
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
 }
