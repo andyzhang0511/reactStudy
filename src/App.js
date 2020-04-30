@@ -33,9 +33,9 @@ class App extends Component {
     */
     state = {
         persons:[
-            {name:'andy',count:50},
-            {name:'Henry',count:5},
-            {name:'Hemiah',count:15},
+            {id:1, name:'andy',count:50},
+            {id:2, name:'Henry',count:5},
+            {id:3, name:'Hemiah',count:15},
         ],
         otherState:'anything',
         showPersons:false
@@ -62,15 +62,36 @@ class App extends Component {
             }
         )
     }
-    nameChangedHandle = (event) => {
+    nameChangedHandle = (event,id) => {
+        // console.log(event,id)
+        // 获取事件对象id
+        const personIndex = this.state.persons.findIndex(p => {
+            return p.id === id
+        })
+        console.log(personIndex)
+        // 修改对应Id的对象
+        const person111 = {
+            ...this.state.persons[personIndex]
+        }
+        // console.log(person111)
+        // 改变name值
+        person111.name = event.target.value
+
+        // 拿到整个数组
+        const persons222 = [...this.state.persons]
+
+        persons222[personIndex] = person111
+
+        // 拿到单独的对象，把现在已经修改的person
         this.setState(
-            {
-                persons:[
-                    {name:event.target.value,count:50},
-                    {name:'Henry',count:55},
-                    {name:'Hemiah',count:15},
-                ],
-            }
+            {persons:persons222}
+            // {
+            //     persons:[
+            //         {name:event.target.value,count:50},
+            //         {name:'Henry',count:55},
+            //         {name:'Hemiah',count:15},
+            //     ],
+            // }
         )
     }
     nameChangedHandle111 = (event) => {
@@ -88,6 +109,14 @@ class App extends Component {
         const doseShow = this.state.showPersons
         this.setState({showPersons:!doseShow})
     }
+    deletePersonHandler = (personIndex) => {
+        console.log(personIndex)
+        const personsss = this.state.persons
+        personsss.splice(personIndex,1)
+        this.setState({
+            persons:personsss
+        })
+    }
     render() {
         const style = {
             backgroundColor:'white',
@@ -100,7 +129,18 @@ class App extends Component {
         if(this.state.showPersons) {
             personModule = (
                 <div>
-                    <Person 
+                    {
+                        this.state.persons.map((person,index) => {
+                            return <Person 
+                            key={index} 
+                            name={person.name} 
+                            count={person.count}
+                            changed={(event) => this.nameChangedHandle(event,person.id)}
+                            myclick={() => this.deletePersonHandler(index)}
+                            />
+                        })
+                    }
+                    {/* <Person 
                         changed={this.nameChangedHandle}
                         name={this.state.persons[0].name} 
                         count={this.state.persons[0].count} 
@@ -115,7 +155,7 @@ class App extends Component {
                         name={this.state.persons[2].name} 
                         count={this.state.persons[2].count}>
                         以上是我关系最亲密的三个好朋友
-                    </Person>
+                    </Person> */}
                 </div>
             )
         }
